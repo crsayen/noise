@@ -14,7 +14,7 @@ class Triangle : public Oscillator {
         float val = (_phase < _pulsewidth) ? 1.0 : -1.0;
         val += polyblep(frequency, _phase);
         val -= polyblep(frequency, fmod(_phase + _pulsewidth, 1.0)); // TODO: fix polyblep for pw != 0.5
-        val = frequency * val + (1.0 - frequency) * lastval;
+        val = frequency * val + (1.0 - frequency) * _lastval;
         lastval = val;
         val = val * 4.0;
         _phase+= frequency;
@@ -22,7 +22,7 @@ class Triangle : public Oscillator {
     }
 
     private:
-    float lastval;
+    float _lastval;
 };
 
 

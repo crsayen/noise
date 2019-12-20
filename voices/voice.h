@@ -1,4 +1,4 @@
 class Voice {
     public:
-    float next() {}
+    float next(float frequency) {}
 };

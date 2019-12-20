@@ -12,4 +12,5 @@ class Oscillator {
       _phase = 0.0f;
     }
     ~Oscillator() { }
+    float next(float frequency) {}
 };
