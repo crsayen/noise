@@ -14,11 +14,10 @@ void ISR_tick(){
     SPI.transfer16(code);
     digitalWrite(ss,HIGH); 
 
-    if (n_ticks >= 48){
+    if (n_ticks++ >= 48){
         tck = true;
         n_ticks = 0;
     }
-    n_ticks++;
 }
 
 void ISR_octave_up(){
@@ -64,19 +63,15 @@ void loop() {
         freq = pow(2,v_in) * low_c * fine * pow(2,oct) * sr_factor;
     }
 
-    fcode =  32767.5f * test.next(freq) + 32767.5f;
-    code = (uint16_t)fcode;
-    if ( code < 0 ){
-        code = 0;
-    } else if ( code > 0xFFFF) {
-        code = 0xFFFF;
-    }
-
-    noInterrupts();
     if (buffer.size() < 48){
+        fcode =  32767.5f * test.next(freq) + 32767.5f;
+        code = (uint16_t)fcode;
+        if ( code < 0 ){
+            code = 0;
+        } else if (code > 0xFFFF) code = 0xFFFF;
+
+        noInterrupts();
         buffer.push(code);
-    }else{
-        Serial.println("buffer full");
-    }
-    interrupts();  
+        interrupts();  
+    }else Serial.println("buffer full");    
 }
