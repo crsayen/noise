@@ -19,10 +19,20 @@
 #define FREQ_DIVISOR 8190.0f
 #define BOUNCE_DURATION 200
 
-float low_c =  16.35159781;
+float fine = 0.0f;
+float v_in = 0.0f;
+float freq = 0.0f;
+float unison_mapped = 0.0f;
+float fcode = 0.0f;
+uint16_t code = 0;
+int unison_read = 0;
+float unison_detune = 0.0f;
+int last_unison = 0;
+volatile long lastl;
+volatile bool tck = true;
+volatile float oct = 0.0f;
+volatile std::queue<uint16_t> buffer;
+IntervalTimer tick;
+float low_c =  16.35159781f;
 float sr_factor = 2.0833333333e-05;
-//std::vector<std::unique_ptr<Oscillator> > oscs;
 Supersaw test;
-
-const unsigned int ss = 8;
-const float vref = 3.3;
