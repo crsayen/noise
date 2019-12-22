@@ -1,4 +1,6 @@
-#define MAKE_INTEGRAL_FRACTIONAL(x) int32_t x ## _integral = static_cast<int32_t>(x); float x ## _fractional = x - static_cast<float>(x ## _integral);
+#define MAKE_INTEGRAL_FRACTIONAL(x) \
+  int32_t x ## _integral = static_cast<int32_t>(x); \
+  float x ## _fractional = x - static_cast<float>(x ## _integral);
 
 float interpolate(const float* table, float index, float size) {
   index *= size;
@@ -8,8 +10,8 @@ float interpolate(const float* table, float index, float size) {
   return a + (b - a) * index_fractional;
 }
 
-float fmap(int x, float in_min, float in_max, float out_min, float out_max){
-    return ((float)x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+float fmap(int x, float imin, float imax, float omin, float omax){
+    return ((float)x - imin) * (omax - omin) / (imax - imin) + omin;
 }
 
 float polyblep(float dt, float t){
