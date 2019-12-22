@@ -2,17 +2,17 @@
 
 void ISR_tick(){
     static uint8_t n_ticks = 0;
-    uint16_t dac_code = 0;
     if(buffer.empty()){
         Serial.println("buffer empty");
         return;
     }
-    dac_code = buffer.front();
+    uint16_t dac_code = buffer.front();
+
     buffer.pop();
 
-    digitalWrite(ss,LOW); 
-    SPI.transfer16(code);
-    digitalWrite(ss,HIGH); 
+    digitalWrite(SS,LOW); 
+    SPI.transfer16(dac_code);
+    digitalWrite(SS,HIGH); 
 
     if (n_ticks++ >= 48){
         tck = true;
@@ -38,7 +38,7 @@ void setup() {
   analogReadRes(12);
   SPI.begin();
   SPI.setDataMode (SPI_MODE3); 
-  pinMode(ss, OUTPUT);
+  pinMode(SS, OUTPUT);
   int inputs[5] = {VOCT,OCT_UP,OCT_DOWN,A5,A9};
   for(int i = 0; i < 5; i++){
       pinMode(inputs[i], INPUT);
@@ -54,17 +54,23 @@ void loop() {
         tck == false;
         unison_read = analogRead(A9);
         if (abs(unison_read - last_unison) > 10){
-            unison_mapped = fmap(adc, 0.0f, 4094.0f, 0.001f, 0.5f);
+            unison_mapped = fmap(unison_read, 0.0f, 4094.0f, 0.001f, 0.5f);
             test.detune(unison_mapped);
         }
         last_unison = unison_read;
         fine = fmap(analogRead(A1), 0.0f, 4094.0f, 0.5f, 2.0f);  
-        v_in = (analogRead(VOCT) - 3330.0f) / -413.0f;
+        float v_adc = analogRead(VOCT);
+        v_in = (v_adc - 3330.0f) / -413.0f;
+        //Serial.println(v_in * 100);
         freq = pow(2,v_in) * low_c * fine * pow(2,oct) * sr_factor;
+        //Serial.println(freq);
     }
 
+
     if (buffer.size() < 48){
-        fcode =  32767.5f * test.next(freq) + 32767.5f;
+        float n = test.next(freq);
+        fcode =  32767.5f * n + 32767.5f;
+        //Serial.println(n);
         code = (uint16_t)fcode;
         if ( code < 0 ){
             code = 0;

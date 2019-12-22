@@ -7,10 +7,6 @@ class Oscillator {
   public:
     float _detune;
     float _phase;
-    Oscillator() { 
-      _detune = 0.0f;
-      _phase = 0.0f;
-    }
+    Oscillator() { }
     ~Oscillator() { }
-    float next(float frequency) {}
 };

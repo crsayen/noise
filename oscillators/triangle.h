@@ -6,7 +6,9 @@
 class Triangle : public Oscillator {
     public:
     float _pulsewidth;
-    Triangle() {}
+    Triangle() {
+        _lastval = 1.0f;
+    }
     ~Triangle() {}
     float next(float frequency){
         frequency+= frequency * _detune;
@@ -15,7 +17,7 @@ class Triangle : public Oscillator {
         val += polyblep(frequency, _phase);
         val -= polyblep(frequency, fmod(_phase + _pulsewidth, 1.0)); // TODO: fix polyblep for pw != 0.5
         val = frequency * val + (1.0 - frequency) * _lastval;
-        lastval = val;
+        _lastval = val;
         val = val * 4.0;
         _phase+= frequency;
         return val;
