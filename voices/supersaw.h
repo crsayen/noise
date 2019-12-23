@@ -31,14 +31,15 @@ void Supersaw::detune(float amount) {
     uint8_t osc = 0;
     uint8_t half = _n_saws / 2;
     float offset = (_n_saws & 1) ? 0.0f : 0.5f;
-    for(auto i : saws) {
+    for(auto &i : saws) {
         i._detune = (osc - half + offset) * amount;
         osc++;
     }
 }
+
 float Supersaw::next(float frequency) {
     float out = 0.0f;
-    for(auto i : saws){
+    for(auto &i : saws){
         out+= i.next(frequency);            
     }
     out/= _n_saws;
