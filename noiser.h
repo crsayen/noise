@@ -14,11 +14,14 @@
 #include <SPI.h>
 #include <TimerOne.h>
 #define VOCT A8
+#define CV1 A7
+#define POT1 A5
+#define POT2 A9
 #define OCT_UP 2
 #define OCT_DOWN 1
 #define SS 8
 #define FREQ_DIVISOR 8190.0f
-#define BOUNCE_DURATION 200
+#define BOUNCE_DURATION 100
 
 unsigned __exidx_start;
 unsigned __exidx_end;
@@ -32,10 +35,11 @@ int unison_read = 0;
 float unison_detune = 0.0f;
 int last_unison = 0;
 volatile long lastl;
-volatile bool tck = true;
+volatile bool tck = false;
 volatile float oct = 0.0f;
 std::queue<uint16_t> buffer;
 IntervalTimer tick;
 float low_c =  16.35159781f;
 float sr_factor = 2.0833333333e-05;
-Supersaw test(3);
+Supersaw test(7);
+//Sine test;

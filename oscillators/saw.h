@@ -15,7 +15,6 @@ class Saw : public Oscillator {
     float next(float frequency){
         frequency += frequency * _detune;
         if (_phase > 1.0f){
-            Serial.println(_phase);
             _phase-= 1.0f;
         } 
         float blep = (1 + polyblep(frequency, _phase));
