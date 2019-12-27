@@ -53,10 +53,16 @@ void loop() {
         if (abs(unison_read - last_unison) > 10){
             unison_mapped = fmap(unison_read, 0.0f, 4094.0f, 0.001f, 0.5f);
             test.detune(unison_mapped);
+            last_unison = unison_read;
         }
-        last_unison = unison_read;
+        
         fine = fmap(analogRead(POT1), 0.0f, 4094.0f, 0.5f, 2.0f);  
-        float fm = fmap(analogRead(CV1), 0.0f, 4094.0f, 0.5f, 2.0f);
+        long fm_read = analogRead(CV1);
+        if(abs(fm_read - last_fm) > 2){
+          fm = fmap(fm_read, 0.0f, 4094.0f, 0.5f, 2.0f);
+          last_fm = fm_read;
+        }
+        
         float v_adc = analogRead(VOCT);
         v_in = (v_adc - 3330.0f) / -413.0f;
         freq = pow(2,v_in) * low_c * fine * fm * pow(2,oct) * sr_factor;
