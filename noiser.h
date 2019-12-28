@@ -9,6 +9,7 @@
 #include "oscillators/square.h"
 #include "voices/voice.h"
 #include "voices/supersaw.h"
+#include "voices/ritchie_rich.h"
 #include <queue>
 #endif
 #include <SPI.h>
@@ -21,7 +22,7 @@
 #define OCT_DOWN 1
 #define SS 8
 #define FREQ_DIVISOR 8190.0f
-#define BOUNCE_DURATION 100
+#define BOUNCE_DURATION 200
 
 unsigned __exidx_start;
 unsigned __exidx_end;
@@ -43,5 +44,4 @@ std::queue<uint16_t> buffer;
 IntervalTimer tick;
 float low_c =  16.35159781f;
 float sr_factor = 2.0833333333e-05;
-Supersaw test(3);
-//Sine test;
+Ritchie_rich test;

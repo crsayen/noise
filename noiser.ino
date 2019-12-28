@@ -11,7 +11,7 @@ void ISR_tick(){
     SPI.transfer16(dac_code);
     digitalWriteFast(SS,HIGH); 
     n_ticks++;
-    if (n_ticks >= 48){
+    if (n_ticks >= 12){
       tck = true;
       n_ticks = 0;
     }
@@ -47,14 +47,14 @@ void setup() {
 }
 
 void loop() {
-    // tck happens every 48 samples -- 1 ms
+    // tck happens every 12 samples -- 250 microseconds
     if(tck){
-        unison_read = analogRead(POT2);
-        if (abs(unison_read - last_unison) > 10){
-            unison_mapped = fmap(unison_read, 0.0f, 4094.0f, 0.001f, 0.5f);
-            test.detune(unison_mapped);
-            last_unison = unison_read;
-        }
+//        unison_read = analogRead(POT2);
+//        if (abs(unison_read - last_unison) > 10){
+//            unison_mapped = fmap(unison_read, 0.0f, 4094.0f, 0.001f, 0.5f);
+//            test.detune(unison_mapped);
+//            last_unison = unison_read;
+//        }
         
         fine = fmap(analogRead(POT1), 0.0f, 4094.0f, 0.5f, 2.0f);  
         long fm_read = analogRead(CV1);
@@ -69,7 +69,7 @@ void loop() {
         tck = false;
     }
     
-    if (buffer.size() < 48){
+    if (buffer.size() < 12){
         float n = test.next(freq);
         fcode =  32767.5f * n + 32767.5f;
         code = (uint16_t)fcode;
