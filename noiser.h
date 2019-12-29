@@ -10,13 +10,14 @@
 #include "voices/voice.h"
 #include "voices/supersaw.h"
 #include "voices/ritchie_rich.h"
+#include "voices/chords.h"
 #include <queue>
 #endif
 #include <SPI.h>
 #include <TimerOne.h>
 #define VOCT A8
 #define CV1 A7
-#define POT1 A5
+#define POT1 A1
 #define POT2 A9
 #define OCT_UP 2
 #define OCT_DOWN 1
@@ -44,4 +45,4 @@ std::queue<uint16_t> buffer;
 IntervalTimer tick;
 float low_c =  16.35159781f;
 float sr_factor = 2.0833333333e-05;
-Ritchie_rich test;
+Chords test(3);

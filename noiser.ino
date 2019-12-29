@@ -64,8 +64,8 @@ void loop() {
         }
         
         float v_adc = analogRead(VOCT);
-        v_in = (v_adc - 3330.0f) / -413.0f;
-        freq = pow(2,v_in) * low_c * fine * fm * pow(2,oct) * sr_factor;
+        v_in = (v_adc - 4156.0f) / -413.0f;
+        freq = pow(2,v_in) * low_c * fine * pow(2,oct) * sr_factor;
         tck = false;
     }
     
