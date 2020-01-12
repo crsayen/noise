@@ -13,7 +13,7 @@ float chord_lut[8][3] = {
     {1.3348409090909092,1.6817954545454545,2.0},
     {1.4983181818181819,1.88775,2.2449090909090907},
     {1.6817954545454545,2.0,2.5198636363636364},
-    {1.88775,2.2449090909090907,2.6696818181818185},
+    {1.88775,2.519863636363636,2.996636363636364},
     {2.0,2.5198636363636364,2.9966363636363638}
 };
 
@@ -21,32 +21,32 @@ float quantize_root(float *root, int* chord_idx){
     float lroot = *root;
     int iroot = (int)lroot;
     int idx;
-    if (iroot > 880){ // TODO: maybe make this a switch. I don't know whether it matters.
-        if (iroot > 14080){
-            idx = ( iroot / 32) - 440;
+    if (iroot > 906){ 
+        if (iroot > 14496){
+            idx = ( iroot / 32) - 453;
             *chord_idx = (idx / 55);
             *root = quantized_lut[*chord_idx];
             return 32.0f;
         }
-        if (iroot > 7040){
-            idx = ( iroot / 16) - 440;
+        if (iroot > 7248){
+            idx = ( iroot / 16) - 453;
             *chord_idx = (idx / 55);
             *root = quantized_lut[*chord_idx];
             return 16.0f;
         }
-        if (iroot > 3520){
-            idx = ( iroot / 8) - 440;
+        if (iroot > 3624){
+            idx = ( iroot / 8) - 453;
             *chord_idx = (idx / 55);
             *root = quantized_lut[*chord_idx];
             return 8.0f;
         }
-        if (iroot > 1760){
-            idx = ( iroot / 4) - 440;
+        if (iroot > 1812){
+            idx = ( iroot / 4) - 453;
             *chord_idx = (idx / 55);
             *root = quantized_lut[*chord_idx];
             return 4.0f;
         }
-        idx = ( iroot / 2) - 440;
+        idx = ( iroot / 2) - 453;
         *chord_idx = (idx / 55);
         *root = quantized_lut[*chord_idx];
         return 2.0f;
@@ -57,25 +57,25 @@ float quantize_root(float *root, int* chord_idx){
             *root = quantized_lut[*chord_idx];
             return 0.03125;
         }
-        if (iroot < 55){
-            idx = (iroot * 16) - 440;
+        if (iroot < 56){
+            idx = (iroot * 16) - 453;
             *chord_idx = (idx / 55);
             *root = quantized_lut[*chord_idx];
             return 0.0625f;
         }
-        if (iroot < 110){
-            idx = ( iroot * 8) - 440;
+        if (iroot < 113){
+            idx = ( iroot * 8) - 453;
             *chord_idx = (idx / 55);
             *root = quantized_lut[*chord_idx];
             return 0.125f;
         }
-        if (iroot < 220){
-            idx = ( iroot * 4) - 440;
+        if (iroot < 226){
+            idx = ( iroot * 4) - 453;
             *chord_idx = (idx / 55);
             *root = quantized_lut[*chord_idx];
             return 0.25;
         }
-        idx = ( iroot * 2) - 440;
+        idx = ( iroot * 2) - 453;
         *chord_idx = (idx / 55);
         *root = quantized_lut[*chord_idx];
         return 0.5f;
