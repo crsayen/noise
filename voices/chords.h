@@ -4,19 +4,22 @@
 #endif
 #include <vector>
 
-int chord_intervals[11][3] = {
-    {0, 4, 7},
-    {0, 4, 7},
-    {0, 3, 7},
-    {0, 3, 7},
-    {0, 3, 7},
-    {0, 4, 7},
-    {0, 4, 7},
-    {0, 4, 7},
-    {0, 4, 7},
-    {0, 3, 7},
-    {0, 5, 8}
+int chord_intervals[12][6] = {
+    {0, 4, 7, 11, 12, 16},
+    {0, 4, 7, 11, 12, 16},
+    {0, 3, 7, 10, 12, 15},
+    {0, 3, 7, 10, 12, 15},
+    {0, 3, 7, 10, 12, 15},
+    {0, 4, 7, 11, 12, 16},
+    {0, 4, 7, 11, 12, 16},
+    {0, 3, 7, 10, 12, 15},
+    {0, 3, 7, 10, 12, 15},
+    {0, 3, 7, 10, 12, 15},
+    {0, 3, 7, 10, 12, 15},
+    {0, 5, 8, 10, 12, 17}
 };
+
+// {0, 5, 8, 10, 12, 17}
 
 float note_bounds[108] = {
     16.835,17.835,18.9,20.025,21.215,22.475,23.810000000000002,25.23,
@@ -90,21 +93,20 @@ Chords::~Chords() {
 float Chords::next(float frequency) {
     float out = 0.0f;
     float root = frequency * 48000;
-    int chord[3];
+    int chord[6];
     int idx = get_idx(root);
-    if (idx > 99){
-        idx = 99;
+    if (idx > 90){
+        idx = 90;
     }
-    int sidx = idx % 11;
-    for(int i = 0; i < 3; i++){
+    int sidx = idx % 12;
+    for(int i = 0; i < 6; i++){
         chord[i] = chord_intervals[sidx][i];
     }
     int x = 0;
     for(auto &i : saws){
-        out+= i.next(chromatic_freqs[idx + chord[x]] * 2.0833333333e-05);
+        out+= i.next((chromatic_freqs[idx + chord[x]]) * 2.0833333333e-05);
         x++;
     }
-    //Serial.println(idx);
     out/= _n_saws;
     return out;
 }

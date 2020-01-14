@@ -45,4 +45,4 @@ std::queue<uint16_t> buffer;
 IntervalTimer tick;
 float low_c =  16.35159781f;
 float sr_factor = 2.0833333333e-05;
-Chords test(3);
+Chords test(6);
